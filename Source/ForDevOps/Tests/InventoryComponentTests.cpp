@@ -58,9 +58,12 @@ bool FItemScoresShouldBeZerosByDefault::RunTest(const FString& Parameters)
     const UInventoryComponent* SUT_InventoryComponent = NewObject<UInventoryComponent>();
     if (!TestNotNull("Inventory component exist", SUT_InventoryComponent)) return false;
 
-    ENUM_LOOP_START(EInventoryItemType, EElem)
-    TestTrueExpr(SUT_InventoryComponent->GetInventoryAmountByType(EElem) == 0);
-    ENUM_LOOP_END
+    // ENUM_LOOP_START(EInventoryItemType, EElem)
+    // TestTrueExpr(SUT_InventoryComponent->GetInventoryAmountByType(EElem) == 0);
+    // ENUM_LOOP_END
+
+    ForEach<EInventoryItemType>([&](EInventoryItemType EElem)  //
+        { TestTrueExpr(SUT_InventoryComponent->GetInventoryAmountByType(EElem) == 0); });
 
     return true;
 }
