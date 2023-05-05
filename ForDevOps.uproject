@@ -1,0 +1,29 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{D3EADF99-451E-3AF2-4514-ECA48B9252E5}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "ForDevOps",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "ModelingToolsEditorMode",
+			"Enabled": true,
+			"TargetAllowList": [
+				"Editor"
+			]
+		},
+		{
+			"Name": "FunctionalTestingEditor",
+			"Enabled": true
+		}
+	]
+}
