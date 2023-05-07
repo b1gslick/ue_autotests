@@ -9,6 +9,9 @@
 #include "Engine/World.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameFramework/PlayerController.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/Controller.h"
 
 AForDevOpsPlayerController::AForDevOpsPlayerController()
 {
@@ -34,6 +37,9 @@ void AForDevOpsPlayerController::SetupInputComponent()
 {
     // set up gameplay key bindings
     Super::SetupInputComponent();
+
+    check(InputComponent);
+    InputComponent->BindAction("ToggleGamePause", IE_Pressed, this, &ThisClass::ToggleGamePause).bExecuteWhenPaused = true;
 
     // Set up action bindings
     if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
@@ -123,4 +129,12 @@ void AForDevOpsPlayerController::OnTouchReleased()
 {
     bIsTouch = false;
     OnSetDestinationReleased();
+}
+
+void AForDevOpsPlayerController::ToggleGamePause()
+{
+    SetPause(!IsPaused());
+    bShowMouseCursor = IsPaused();
+    IsPaused() ? SetInputMode(FInputModeGameAndUI()) : SetInputMode(FInputModeGameOnly());
+    // .SetHideCursorDuringCapture(false)
 }

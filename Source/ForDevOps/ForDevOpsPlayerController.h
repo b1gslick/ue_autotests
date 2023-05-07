@@ -39,6 +39,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
     class UInputAction* SetDestinationTouchAction;
 
+    void ToggleGamePause();
+
 protected:
     /** True if the controlled character should navigate to the mouse cursor. */
     uint32 bMoveToMouseCursor : 1;
@@ -48,6 +50,15 @@ protected:
     // To add mapping context
     virtual void BeginPlay();
 
+    /** Called for forwards/backward input */
+    void MoveForward(float Value);
+
+    /** Called for side to side input */
+    void MoveRight(float Value);
+
+    void MoveLeft(float Value);
+
+    void MoveBack(float Value);
     /** Input handlers for SetDestination action. */
     void OnInputStarted();
     void OnSetDestinationTriggered();

@@ -5,12 +5,12 @@
 #include "Camera/CameraComponent.h"
 #include "Components/DecalComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "ForDevOps/Components/InventoryComponent.h"
-#include "Materials/Material.h"
-#include "Engine/World.h"
+#include "TimerManager.h"
 
 AForDevOpsCharacter::AForDevOpsCharacter()
 {
@@ -51,4 +51,140 @@ AForDevOpsCharacter::AForDevOpsCharacter()
 void AForDevOpsCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+}
+
+void AForDevOpsCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+    check(PlayerInputComponent);
+    PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+    PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+    PlayerInputComponent->BindAxis("MoveForward", this, &AForDevOpsCharacter::MoveForward);
+    PlayerInputComponent->BindAxis("MoveRight", this, &AForDevOpsCharacter::MoveRight);
+
+    PlayerInputComponent->BindAxis("MoveBack", this, &AForDevOpsCharacter::MoveBack);
+    PlayerInputComponent->BindAxis("MoveLeft", this, &AForDevOpsCharacter::MoveLeft);
+}
+
+void AForDevOpsCharacter::MoveForward(float Value)
+{
+    if (Controller && Value != 0.0f)
+    {
+        // find out which way is forward
+        const FRotator Rotation = Controller->GetControlRotation();
+        const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+        // get forward vector
+        const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+        AddMovementInput(Direction, Value);
+    }
+}
+
+void AForDevOpsCharacter::MoveRight(float Value)
+{
+    if (Controller && Value != 0.0f)
+    {
+        // find out which way is right
+        const FRotator Rotation = Controller->GetControlRotation();
+        const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+        // get right vector
+        const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+        // add movement in that direction
+        AddMovementInput(Direction, Value);
+    }
+}
+
+void AForDevOpsCharacter::MoveBack(float Value)
+{
+    if (Controller && Value != 0.0f)
+    {
+        // find out which way is right
+        const FRotator Rotation = Controller->GetControlRotation();
+        const FRotator YawRotation(0, Rotation.Yaw, -1);
+
+        // get right vector
+        const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+        // add movement in that direction
+        AddMovementInput(Direction, Value);
+    }
+}
+
+void AForDevOpsCharacter::MoveLeft(float Value)
+{
+    if (Controller && Value != 0.0f)
+    {
+        // find out which way is right
+        const FRotator Rotation = Controller->GetControlRotation();
+        const FRotator YawRotation(0, Rotation.Yaw, -1);
+
+        // get right vector
+        const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+        // add movement in that direction
+        AddMovementInput(Direction, Value);
+    }
+}
+
+void AForDevOpsCharacter::BeginPlay()
+{
+    Super::BeginPlay();
+
+    check(HealthData.MaxHealth > 0.0f);
+    Health = HealthData.MaxHealth;
+
+    OnTakeAnyDamage.AddDynamic(this, &AForDevOpsCharacter::OnAnyDamageReceived);
+}
+
+float AForDevOpsCharacter::GetHealthPercent() const
+{
+    return Health / HealthData.MaxHealth;
+}
+
+void AForDevOpsCharacter::OnAnyDamageReceived(
+    AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
+{
+    const auto IsAlive = [&]() { return Health > 0.0f; };
+
+    if (Damage <= 0.0f || !IsAlive()) return;
+
+    Health = FMath::Clamp(Health - Damage, 0.0f, HealthData.MaxHealth);
+
+    if (IsAlive())
+    {
+        GetWorldTimerManager().SetTimer(HealTimerHandle, this, &AForDevOpsCharacter::OnHealing, HealthData.HealRate, true, -1.0f);
+    }
+    else
+    {
+        OnDeath();
+    }
+}
+
+void AForDevOpsCharacter::OnHealing()
+{
+    Health = FMath::Clamp(Health + HealthData.HealModifier, 0.0f, HealthData.MaxHealth);
+    if (FMath::IsNearlyEqual(Health, HealthData.MaxHealth))
+    {
+        Health = HealthData.MaxHealth;
+        GetWorldTimerManager().ClearTimer(HealTimerHandle);
+    }
+}
+
+void AForDevOpsCharacter::OnDeath()
+{
+    GetWorldTimerManager().ClearTimer(HealTimerHandle);
+
+    check(GetCharacterMovement());
+    check(GetCapsuleComponent());
+    check(GetMesh());
+
+    GetCharacterMovement()->DisableMovement();
+    GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+    GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    GetMesh()->SetSimulatePhysics(true);
+    if (Controller)
+    {
+        Controller->ChangeState(NAME_Spectating);
+    }
+
+    SetLifeSpan(HealthData.LifeSpan);
 }

@@ -116,7 +116,7 @@ bool FAllItemsAreTakenOnMovement::RunTest(const FString& Parameters)
 
     const int32 MoveForwardIndex = GetAxisBindingIndexByName(Character->InputComponent, "MoveForward");
     TestTrueExpr(MoveForwardIndex != INDEX_NONE);
-    const int32 MoveRightIndex = GetAxisBindingIndexByName(Character->InputComponent, "MoveRigth");
+    const int32 MoveRightIndex = GetAxisBindingIndexByName(Character->InputComponent, "MoveRight");
     TestTrueExpr(MoveForwardIndex != INDEX_NONE);
 
     ADD_LATENT_AUTOMATION_COMMAND(FEngineWaitLatentCommand(1.0f));

@@ -86,7 +86,7 @@ int32 GetAxisBindingIndexByName(UInputComponent* InputComp, const FString& AxisN
 
 FString GetTestDataDir()
 {
-    return FPaths::GameSourceDir().Append("ForDevOps/Tests/Data/");
+    return FPaths::GameSourceDir().Append("TPS/Tests/Data/");
 }
 
 }  // namespace Test
