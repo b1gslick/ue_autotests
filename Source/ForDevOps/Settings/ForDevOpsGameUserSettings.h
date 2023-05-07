@@ -6,12 +6,25 @@
 #include "GameFramework/GameUserSettings.h"
 #include "ForDevOpsGameUserSettings.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class FORDEVOPS_API UForDevOpsGameUserSettings : public UGameUserSettings
+class UForDevOpsGameSetting;
+
+DECLARE_MULTICAST_DELEGATE(FOnSettingsUpdatedDelegate);
+
+UCLASS() class FORDEVOPS_API UForDevOpsGameUserSettings : public UGameUserSettings
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+
+public:
+    UForDevOpsGameUserSettings();
+    static UForDevOpsGameUserSettings* Get();
+
+    const TArray<UForDevOpsGameSetting*>& GetVideoSettings() const;
+
+    void RunBenchmark();
+
+    FOnSettingsUpdatedDelegate OnVideoSettingsUpdated;
+
+private:
+    UPROPERTY()
+    TArray<UForDevOpsGameSetting*> VideoSettings;
 };

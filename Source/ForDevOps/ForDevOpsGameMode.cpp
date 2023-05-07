@@ -25,23 +25,3 @@ AForDevOpsGameMode::AForDevOpsGameMode()
         PlayerControllerClass = PlayerControllerBPClass.Class;
     }
 }
-
-bool AForDevOpsGameMode::SetPause(APlayerController* PC, FCanUnpause CanUnpauseDelegate)
-{
-    const bool Succeed = Super::SetPause(PC, CanUnpauseDelegate);
-    if (Succeed)
-    {
-        OnGamePause.Broadcast(true);
-    }
-    return false;
-}
-
-bool AForDevOpsGameMode::ClearPause()
-{
-    const bool Succeed = Super::ClearPause();
-    if (Succeed)
-    {
-        OnGamePause.Broadcast(false);
-    }
-    return false;
-}

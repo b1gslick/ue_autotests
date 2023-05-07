@@ -11,6 +11,8 @@
 /** Forward declaration to improve compiling times */
 class UNiagaraSystem;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGamePauseDelegate, bool, IsPaused);
+
 UCLASS()
 class AForDevOpsPlayerController : public APlayerController
 {
@@ -41,6 +43,9 @@ public:
 
     void ToggleGamePause();
 
+    UPROPERTY(BlueprintAssignable)
+    FOnGamePauseDelegate OnGamePause;
+
 protected:
     /** True if the controlled character should navigate to the mouse cursor. */
     uint32 bMoveToMouseCursor : 1;
@@ -68,6 +73,8 @@ protected:
 
 private:
     FVector CachedDestination;
+
+    bool bInPause{false};
 
     bool bIsTouch;     // Is it a touch device
     float FollowTime;  // For how long it has been pressed

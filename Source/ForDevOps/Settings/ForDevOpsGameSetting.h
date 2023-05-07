@@ -3,13 +3,42 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ForDevOpsGameSetting.generated.h"
 
-/**
- * 
- */
-class FORDEVOPS_API ForDevOpsGameSetting
+USTRUCT()
+struct FSettingOption
 {
+    GENERATED_BODY()
+
+    FText Name;
+
+    int32 Value;
+};
+
+UCLASS()
+class UForDevOpsGameSetting : public UObject
+{
+    GENERATED_BODY()
+
 public:
-	ForDevOpsGameSetting();
-	~ForDevOpsGameSetting();
+    void SetName(const FText& Name);
+    void SetOption(const TArray<FSettingOption>& Options);
+
+    FSettingOption GetCurrentOption() const;
+    FText GetName() const;
+    void AddGetter(TFunction<int32()> Func);
+    void AddSetter(TFunction<void(int32)> Func);
+
+    void ApplyNextOption();
+    void ApplyPrevOption();
+
+private:
+    FText Name;
+    TArray<FSettingOption> Options;
+    TFunction<int32()> Getter;
+    TFunction<void(int32)> Setter;
+
+    int32 GetCurrentValue() const;
+    void SetCurrentValue(int32 Value);
+    int32 GetCurrentIndex() const;
 };
