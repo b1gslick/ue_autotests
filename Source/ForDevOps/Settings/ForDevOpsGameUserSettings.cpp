@@ -14,7 +14,7 @@
 
 UForDevOpsGameUserSettings::UForDevOpsGameUserSettings()
 {
-    const TArray<FSettingOption> VFXOptions = {
+    const TArray<FSettingOption> VideoSettingOptions = {
 
         {LOCTEXT("VFXQualityLow_Loc", "Low"), 0},
         {LOCTEXT("VFXQualityMedium_Loc", "Medium"), 1},
@@ -26,7 +26,7 @@ UForDevOpsGameUserSettings::UForDevOpsGameUserSettings()
         auto* Setting = NewObject<UForDevOpsGameSetting>();
         check(Setting);
         Setting->SetName(LOCTEXT("AntiAliasing_Loc", "Anti-Aliasing"));
-        Setting->SetOption(VFXOptions);
+        Setting->SetOption(VideoSettingOptions);
         Setting->AddGetter([&]() { return GetAntiAliasingQuality(); });
         Setting->AddSetter(BIND_SETTINGS_FUNC(SetAntiAliasingQuality));
         VideoSettings.Add(Setting);
@@ -36,7 +36,7 @@ UForDevOpsGameUserSettings::UForDevOpsGameUserSettings()
         auto* Setting = NewObject<UForDevOpsGameSetting>();
         check(Setting);
         Setting->SetName(LOCTEXT("Textures_Loc", "Textures"));
-        Setting->SetOption(VFXOptions);
+        Setting->SetOption(VideoSettingOptions);
         Setting->AddGetter([&]() { return GetTextureQuality(); });
         Setting->AddSetter(BIND_SETTINGS_FUNC(SetTextureQuality));
         VideoSettings.Add(Setting);
@@ -46,7 +46,7 @@ UForDevOpsGameUserSettings::UForDevOpsGameUserSettings()
         auto* Setting = NewObject<UForDevOpsGameSetting>();
         check(Setting);
         Setting->SetName(LOCTEXT("GlobalIllumination_Loc", "Global Illumination"));
-        Setting->SetOption(VFXOptions);
+        Setting->SetOption(VideoSettingOptions);
         Setting->AddGetter([&]() { return GetGlobalIlluminationQuality(); });
         Setting->AddSetter(BIND_SETTINGS_FUNC(SetGlobalIlluminationQuality));
         VideoSettings.Add(Setting);
@@ -56,7 +56,7 @@ UForDevOpsGameUserSettings::UForDevOpsGameUserSettings()
         auto* Setting = NewObject<UForDevOpsGameSetting>();
         check(Setting);
         Setting->SetName(LOCTEXT("Shadows_Loc", "Shadows"));
-        Setting->SetOption(VFXOptions);
+        Setting->SetOption(VideoSettingOptions);
         Setting->AddGetter([&]() { return GetShadowQuality(); });
         Setting->AddSetter(BIND_SETTINGS_FUNC(SetShadowQuality));
         VideoSettings.Add(Setting);
@@ -66,7 +66,7 @@ UForDevOpsGameUserSettings::UForDevOpsGameUserSettings()
         auto* Setting = NewObject<UForDevOpsGameSetting>();
         check(Setting);
         Setting->SetName(LOCTEXT("PostProccesing_Loc", "Post Processing"));
-        Setting->SetOption(VFXOptions);
+        Setting->SetOption(VideoSettingOptions);
         Setting->AddGetter([&]() { return GetPostProcessingQuality(); });
         Setting->AddSetter(BIND_SETTINGS_FUNC(SetPostProcessingQuality));
         VideoSettings.Add(Setting);

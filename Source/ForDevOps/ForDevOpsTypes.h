@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
 #include "ForDevOpsTypes.generated.h"
 
 UENUM(BlueprintType)
@@ -10,6 +11,27 @@ enum class EInventoryItemType : uint8
     CUBE UMETA(DisplayName = "MY COOL CUBE"),
     CYLINDER,
     CONE
+};
+
+UCLASS()
+class FORDEVOPS_API UForDevOpsLocalizationFuncLib : public UBlueprintFunctionLibrary
+{
+    GENERATED_BODY()
+
+public:
+    UFUNCTION(BlueprintPure)
+    static FText GetInventoryItemText(EInventoryItemType ItemType)
+    {
+        switch (ItemType)
+        {
+            case EInventoryItemType::SPHERE: return NSLOCTEXT("Inventory", "Sphere_loc", "SPHERE");
+            case EInventoryItemType::CUBE: return NSLOCTEXT("Inventory", "Cube_loc", "CUBE");
+            case EInventoryItemType::CYLINDER: return NSLOCTEXT("Inventory", "Cylinder_loc", "CYLINDER");
+            case EInventoryItemType::CONE: return NSLOCTEXT("Inventory", "Cone_loc", "CONE");
+        }
+        checkNoEntry();
+        return FText{};
+    }
 };
 
 USTRUCT(BlueprintType)

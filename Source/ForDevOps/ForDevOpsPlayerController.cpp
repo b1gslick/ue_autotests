@@ -134,9 +134,11 @@ void AForDevOpsPlayerController::OnTouchReleased()
 void AForDevOpsPlayerController::ToggleGamePause()
 {
     bInPause = !bInPause;
-    SetPause(!bInPause);
+    SetPause(bInPause);
     bShowMouseCursor = bInPause;
-    bInPause ? SetInputMode(FInputModeGameAndUI()) : SetInputMode(FInputModeGameOnly());
+    bInPause                                                                     //
+        ? SetInputMode(FInputModeGameAndUI().SetHideCursorDuringCapture(false))  //
+        : SetInputMode(FInputModeGameOnly());
     OnGamePause.Broadcast(bInPause);
     // .SetHideCursorDuringCapture(false)
 }
