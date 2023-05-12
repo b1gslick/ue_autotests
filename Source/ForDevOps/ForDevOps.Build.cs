@@ -9,7 +9,7 @@ public class ForDevOps : ModuleRules
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
         PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay",
-            "NavigationSystem", "AIModule", "Niagara", "EnhancedInput", "Json", "JsonUtilities", "UMG" });
+            "NavigationSystem", "AIModule", "Niagara", "EnhancedInput", "Json", "JsonUtilities", "UMG", "FunctionalTesting" });
 
         PublicIncludePaths.Add("ForDevOps");
     }

@@ -7,9 +7,15 @@ set FromCrush=C:\ue_pkgs\UE5_Windows_5.1.1-release_5ca9da8
 @REM set VersionSelector=C:\JenkinsJob\UE\Engine\Binaries\Win64\UnrealVersionSelector.exe
 set VersionSelector=C:\Program Files (x86)\Epic Games\Launcher\Engine\Binaries\Win64\UnrealVersionSelector.exe
 
+rem Current engine path
+set CurrentEnginePath=%FromCrush%
+
+rem Editor path
+set EditorPath=%CurrentEnginePath%\Enigne\Binaries\Win64\UnrealEditor.exe
+
 rem !! Engine version for packaging !!
 @REM set RunUATPath=%EnginePath%\Engine\Build\BatchFiles\RunUAT.bat
-set RunUATPath=%FromCrush%\Engine\Build\BatchFiles\RunUAT.bat
+set RunUATPath=%CurrentEnginePath%\Engine\Build\BatchFiles\RunUAT.bat
 
 rem Project params
 set ProjectRoot=C:\Users\s_timokhin\_Projects\ForDevOps

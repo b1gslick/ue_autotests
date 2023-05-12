@@ -14,4 +14,15 @@ class FORDEVOPS_API UScienceFuncLIb : public UBlueprintFunctionLibrary
 public:
     UFUNCTION(BlueprintPure, Category = Science)
     static int32 Fibonacci(int32 Value);
+
+    /**
+     * Calcilates factorial for the input number
+     *
+     * @param    Value Number for which factorial should be calculated
+     * @return         Factrorial or (-1) for negative numbers
+     *
+     */
+
+    UFUNCTION(BlueprintPure, Category = Science)
+    static int32 Factorial(int32 Value);
 };
