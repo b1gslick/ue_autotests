@@ -4,6 +4,6 @@ call "%~dp0\..\config.bat"
 
 "%RunUATPath%" BuildCookRun ^
 -project="%ProjectPath%" ^
--Platform="%Platform%" ^
+-platform="%Platform%" ^
 -serverconfig="%Configuration%" ^
 -build -cook -skippackage -server -noclient

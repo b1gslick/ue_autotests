@@ -125,7 +125,7 @@ bool FSettingCanBeApplied::RunTest(const FString& Parameters)
     TestTrueExpr(GIQualityAfter == VideoSettings[IndexGlobalElemenationInSettings]->GetCurrentOption().Value);
 
     UForDevOpsGameUserSettings::Get()->SetGlobalIlluminationQuality(GIQualityBefore);
-
+    UForDevOpsGameUserSettings::Get()->ApplySettings(false);
     return true;
 }
 

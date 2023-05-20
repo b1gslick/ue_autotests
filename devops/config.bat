@@ -11,7 +11,7 @@ rem Current engine path
 set CurrentEnginePath=%FromCrush%
 
 rem Editor path
-set EditorPath=%CurrentEnginePath%\Enigne\Binaries\Win64\UnrealEditor.exe
+set EditorPath=%CurrentEnginePath%\Engine\Binaries\Win64\UnrealEditor.exe
 
 rem !! Engine version for packaging !!
 @REM set RunUATPath=%EnginePath%\Engine\Build\BatchFiles\RunUAT.bat
@@ -43,3 +43,9 @@ rem Run
 set ServerExePath=%ProjectRoot%/Build/WindowsServer/%ProjectPureName%Server.exe
 set ClientExePath=%ProjectRoot%/Build/WindowsClient/%ProjectPureName%Client.exe
 set GameExePath=%ProjectRoot%/Build/WindowsNoEditor/%ProjectPureName%.exe
+
+rem Tests
+set TestOutputLogPath=%ProjectRoot%\Build\Tests\Tests.log
+set ReportOutputPath=%ProjectRoot%\Build\Tests
+set UEAutomationContentPath=%CurrentEnginePath%\Engine\Content\Automation
+set TestNames=DevOpsGame
