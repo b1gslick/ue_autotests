@@ -78,6 +78,7 @@ def main():
     # print(xml_output.toprettyxml(indent="  "))
 
     xml_file = open(args.junit_xml_path, "w")
+    print(xml_file)
     xml_file.write(xml_output.toprettyxml(indent="  "))
 
 def create_error_msg(test):
