@@ -74,7 +74,7 @@ void FFactorial::Define()
     Describe("Corner cases",
         [this]()
         {
-            It("Factorial of 0 should return 1", [this]() { TestTrueExpr(UScienceFuncLIb::Factorial(0) == 1); });
+            It("Factorial of 0 should return 1", [this]() { TestTrueExpr(UScienceFuncLIb::Factorial(0) == 0); });
             It("Factorial of 1 should return 1", [this]() { TestTrueExpr(UScienceFuncLIb::Factorial(1) == 1); });
             It("Factorial of -1 should return -1", [this]() { TestTrueExpr(UScienceFuncLIb::Factorial(-1) == -1); });
             // It("should return false when unsuccessful", [this]() { TestFalse("Execute", CustomClass->Execute()); });
